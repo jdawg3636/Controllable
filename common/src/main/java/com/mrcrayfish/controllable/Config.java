@@ -180,6 +180,9 @@ public class Config
 
                 @ConfigProperty(name = "rightThumbstickDeadZone", comment = "The distance you have to move the right thumbstick before it's input is registered. This fixes drifting as some thumbsticks don't center to zero.")
                 public final DoubleProperty rightThumbstickDeadZone = DoubleProperty.create(0.1, 0.0, 1.0);
+
+                @ConfigProperty(name = "rawInput", comment = "Enables raw input for input libraries that support it. This may or may not improve compatibility of your gamepad. You will need to restart your game after changing this property.")
+                public final BoolProperty rawInput = BoolProperty.create(false);
             }
         }
     }

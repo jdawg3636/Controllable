@@ -360,6 +360,10 @@ public class SettingsScreen extends Screen
                 optionsList.addEntry(new TabOptionToggleItem(Config.CLIENT.options.rumble));
             }
 
+            TabOptionToggleItem rawInputOption = new TabOptionToggleItem(Config.CLIENT.options.advanced.rawInput);
+            rawInputOption.setVisibilityCondition(Config.CLIENT.options.advanced.advancedMode::get);
+            optionsList.addEntry(rawInputOption);
+
             optionsList.addEntry(new TabOptionTitleItem(Component.translatable("controllable.gui.title.gyro").withStyle(ChatFormatting.BOLD, ChatFormatting.YELLOW)));
             TabOptionToggleItem gyroMouse = new TabOptionToggleItem(Config.CLIENT.options.gyro.gyroMouse);
             optionsList.addEntry(gyroMouse);

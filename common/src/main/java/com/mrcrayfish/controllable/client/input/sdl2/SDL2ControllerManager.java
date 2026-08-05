@@ -86,6 +86,12 @@ public class SDL2ControllerManager extends AdaptiveControllerManager
         SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS, "1");
         SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, "1");
         SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, "1");
+        SDL_SetHint(SDL_HINT_JOYSTICK_RAWINPUT, "0");
+        if(Config.CLIENT.options.advanced.rawInput.get())
+        {
+            SDL_SetHint(SDL_HINT_JOYSTICK_RAWINPUT, "1");
+            SDL_SetHint(SDL_HINT_JOYSTICK_RAWINPUT_CORRELATE_XINPUT, "1");
+        }
         SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_SENSOR);
     }
 
