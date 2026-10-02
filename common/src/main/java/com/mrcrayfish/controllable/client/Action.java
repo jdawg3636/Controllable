@@ -3,8 +3,6 @@ package com.mrcrayfish.controllable.client;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-
 /**
  * Author: MrCrayfish
  */

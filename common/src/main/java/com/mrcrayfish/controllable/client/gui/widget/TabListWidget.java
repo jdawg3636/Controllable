@@ -1,7 +1,6 @@
 package com.mrcrayfish.controllable.client.gui.widget;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mrcrayfish.controllable.client.gui.components.TabSelectionList;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -11,10 +10,9 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Author: MrCrayfish

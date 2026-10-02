@@ -3,6 +3,7 @@ package com.mrcrayfish.controllable.client.binding;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mrcrayfish.controllable.Config;
 import com.mrcrayfish.controllable.Controllable;
+import com.mrcrayfish.controllable.client.InputHandler;
 import com.mrcrayfish.controllable.client.binding.context.GlobalContext;
 import com.mrcrayfish.controllable.client.binding.context.InGameContext;
 import com.mrcrayfish.controllable.client.binding.context.InScreenContext;
@@ -10,7 +11,6 @@ import com.mrcrayfish.controllable.client.binding.handlers.EmptyHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.MovementInputHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.OnPressAndReleaseHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.OnPressHandler;
-import com.mrcrayfish.controllable.client.InputHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.impl.AttackHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.impl.DropHandler;
 import com.mrcrayfish.controllable.client.binding.handlers.impl.SneakHandler;
@@ -18,7 +18,10 @@ import com.mrcrayfish.controllable.client.gui.screens.SettingsScreen;
 import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.util.MouseHooks;
 import com.mrcrayfish.controllable.platform.ClientServices;
-import net.minecraft.client.*;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Screenshot;
+import net.minecraft.client.ScrollWheelHandler;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
@@ -35,7 +38,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLKeyboard;
 
 import java.util.Optional;
 
@@ -82,7 +85,7 @@ public class ButtonBindings
     public static final ButtonBinding CLOSE_INVENTORY = new ButtonBinding(Buttons.Y, "controllable.key.close_inventory", "key.category.minecraft.inventory", InScreenContext.INSTANCE, OnPressHandler.create(context -> {
         return Optional.of(() -> {
             context.screen().ifPresent(screen -> {
-                screen.keyPressed(new KeyEvent(GLFW.GLFW_KEY_ESCAPE, GLFW.glfwGetKeyScancode(GLFW.GLFW_KEY_ESCAPE), 0));
+                screen.keyPressed(new KeyEvent(InputConstants.KEY_ESCAPE, SDLKeyboard.SDL_GetKeyFromScancode(InputConstants.KEY_ESCAPE, (short) 0, false), 0));
             });
         });
     }));
@@ -310,7 +313,7 @@ public class ButtonBindings
         });
     }, context -> {
         return context.screen().map(screen -> {
-            MouseHooks.sendMouseReleasedEvent(screen, GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseHooks.sendMouseReleasedEvent(screen, InputConstants.MOUSE_BUTTON_RIGHT);
             return true;
         }).orElse(false);
     }));
@@ -350,9 +353,10 @@ public class ButtonBindings
     public static final ButtonBinding FULLSCREEN = new ButtonBinding(-1, "key.fullscreen", "key.category.minecraft.misc", GlobalContext.INSTANCE, OnPressHandler.create(context -> {
         return Optional.of(() -> {
             Minecraft mc = context.minecraft();
-            mc.getWindow().toggleFullScreen();
-            mc.options.fullscreen().set(mc.getWindow().isFullscreen());
+            mc.options.fullscreen().set(!mc.options.fullscreen().get());
             mc.options.save();
+            mc.getWindow().setFullscreen(mc.options.fullscreen().get());
+            mc.getWindow().changeFullscreenVideoMode();
         });
     }));
 

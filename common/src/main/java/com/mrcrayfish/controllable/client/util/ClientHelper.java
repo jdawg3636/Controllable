@@ -20,7 +20,6 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.*;
 import net.minecraft.util.FormattedCharSequence;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

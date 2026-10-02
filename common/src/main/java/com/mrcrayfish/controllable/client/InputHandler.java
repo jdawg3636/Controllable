@@ -19,6 +19,7 @@ import com.mrcrayfish.controllable.client.settings.Thumbstick;
 import com.mrcrayfish.controllable.client.util.*;
 import com.mrcrayfish.controllable.event.ControllerEvents;
 import com.mrcrayfish.controllable.integration.JeiSupport;
+import com.mrcrayfish.controllable.integration.ReiSupport;
 import com.mrcrayfish.controllable.mixin.client.OverlayRecipeComponentAccessor;
 import com.mrcrayfish.controllable.mixin.client.RecipeBookComponentAccessor;
 import com.mrcrayfish.controllable.mixin.client.RecipeBookPageAccessor;
@@ -49,7 +50,6 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -649,8 +649,7 @@ public class InputHandler
 
         if(Controllable.isReiLoaded() && ClientHelper.isPlayingGame())
         {
-            // TODO 26.1 reimplement when possible
-            //points.addAll(ReiSupport.getNavigationPoints(screen));
+            points.addAll(ReiSupport.getNavigationPoints(screen));
         }
 
         // Gather any additional points from event
@@ -773,7 +772,7 @@ public class InputHandler
                 if(menu.getCarried().isEmpty()) {
                     MouseHooks.sendMouseClickEvent(screen, InputConstants.MOUSE_BUTTON_LEFT, screenLeft + slot.x + 8, screenTop + slot.y + 8);
                 } else {
-                    MouseHooks.sendMouseReleasedEvent(screen, GLFW.GLFW_MOUSE_BUTTON_LEFT, screenLeft + slot.x + 8, screenTop + slot.y + 8);
+                    MouseHooks.sendMouseReleasedEvent(screen, InputConstants.MOUSE_BUTTON_LEFT, screenLeft + slot.x + 8, screenTop + slot.y + 8);
                 }
             });
         }

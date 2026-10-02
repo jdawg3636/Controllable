@@ -1,10 +1,6 @@
 package test;
 
-import com.mrcrayfish.controllable.client.binding.context.BindingContext;
-import com.mrcrayfish.controllable.client.binding.context.GlobalContext;
-import com.mrcrayfish.controllable.client.binding.context.InGameContext;
-import com.mrcrayfish.controllable.client.binding.context.InGameWithScreenContext;
-import com.mrcrayfish.controllable.client.binding.context.InScreenContext;
+import com.mrcrayfish.controllable.client.binding.context.*;
 import com.mrcrayfish.controllable.client.binding.context.rule.ContextRule;
 import com.mrcrayfish.controllable.client.binding.context.rule.HasPlayerRule;
 import com.mrcrayfish.controllable.client.binding.context.rule.HasScreenRule;
@@ -17,7 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Author: MrCrayfish

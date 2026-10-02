@@ -1,10 +1,12 @@
 package com.mrcrayfish.controllable.client.gui.components;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.datafixers.util.Pair;
 import com.mrcrayfish.controllable.Controllable;
 import com.mrcrayfish.controllable.client.gui.Icons;
 import com.mrcrayfish.controllable.client.gui.screens.SettingsScreen;
-import com.mrcrayfish.controllable.client.input.Controller;
 import com.mrcrayfish.controllable.client.input.AdaptiveControllerManager;
+import com.mrcrayfish.controllable.client.input.Controller;
 import com.mrcrayfish.controllable.client.input.MultiController;
 import com.mrcrayfish.controllable.client.util.ScreenHelper;
 import net.minecraft.ChatFormatting;
@@ -21,17 +23,10 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -62,7 +57,7 @@ public class ControllerList extends TabSelectionList<ControllerList.ControllerEn
     {
         this.clearEntries();
         Map<Number, Pair<Integer, String>> controllers = this.manager.getControllers();
-        controllers.forEach((jid, pair) -> this.addEntry(new ControllerEntry(jid, pair.getLeft(), pair.getRight())));
+        controllers.forEach((jid, pair) -> this.addEntry(new ControllerEntry(jid, pair.getFirst(), pair.getSecond())));
         this.updateSelected();
     }
 
@@ -214,7 +209,7 @@ public class ControllerList extends TabSelectionList<ControllerList.ControllerEn
         @Override
         public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick)
         {
-            if(event.button() == GLFW.GLFW_MOUSE_BUTTON_1)
+            if(event.button() == InputConstants.MOUSE_BUTTON_LEFT)
             {
                 this.connect();
                 minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.WOODEN_BUTTON_CLICK_ON, 1.75F));

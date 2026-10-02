@@ -64,12 +64,6 @@ dependencies {
     // AppleSkin
     //rumtimeOnly "squeek.appleskin:appleskin-neoforge:mc1.21.3-3.0.6"
 
-    // Controllable SDL (https://github.com/MrCrayfish/ControllableSDL)
-    library jarJar("com.mrcrayfish:controllable-sdl:${controllable_sdl_version}") {
-        transitive(false)
-    }
-
-
     testImplementation "org.junit.jupiter:junit-jupiter:5.7.2"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }

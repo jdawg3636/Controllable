@@ -2,7 +2,6 @@ package com.mrcrayfish.controllable.client.gui.navigation;
 
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.TabButton;
 
 /**

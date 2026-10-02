@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MouseHandlerMixin
 {
     @Inject(method = "onMove", at = @At(value = "HEAD"))
-    private void controllableOnMouseMoved(long windowId, double mouseX, double mouseY, CallbackInfo ci)
+    private void controllableOnMouseMoved(long handle, double xpos, double ypos, double xrel, double yrel, CallbackInfo ci)
     {
-        if(windowId == Minecraft.getInstance().getWindow().handle())
+        if(handle == Minecraft.getInstance().getWindow().handle())
         {
             Controllable.getCursor().setMode(VirtualCursor.CursorMode.MOUSE);
         }

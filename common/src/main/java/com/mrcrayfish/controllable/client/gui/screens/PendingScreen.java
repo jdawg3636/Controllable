@@ -1,10 +1,9 @@
 package com.mrcrayfish.controllable.client.gui.screens;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.util.Util;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Util;
 
 /**
  * Author: MrCrayfish

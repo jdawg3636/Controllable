@@ -1,7 +1,6 @@
 package com.mrcrayfish.controllable.client.gui;
 
 import com.mrcrayfish.controllable.client.binding.ButtonBinding;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 
 /**

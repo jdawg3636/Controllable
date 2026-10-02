@@ -4,15 +4,14 @@ import com.google.common.base.Preconditions;
 import com.mrcrayfish.controllable.Controllable;
 import com.mrcrayfish.controllable.client.gui.screens.ControllerLayoutScreen;
 import com.mrcrayfish.controllable.client.gui.screens.SettingsScreen;
+import com.mrcrayfish.controllable.client.input.AdaptiveControllerManager;
 import com.mrcrayfish.controllable.client.input.ButtonStates;
 import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.input.Controller;
-import com.mrcrayfish.controllable.client.input.AdaptiveControllerManager;
 import com.mrcrayfish.framework.api.event.client.FrameworkClientTickEvents;
 import net.minecraft.client.FramerateLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.util.Util;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayDeque;

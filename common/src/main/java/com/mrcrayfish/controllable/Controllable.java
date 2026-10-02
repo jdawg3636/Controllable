@@ -1,18 +1,11 @@
 package com.mrcrayfish.controllable;
 
 import com.google.common.base.Suppliers;
-import com.mrcrayfish.controllable.client.CameraHandler;
-import com.mrcrayfish.controllable.client.InputHandler;
-import com.mrcrayfish.controllable.client.InputProcessor;
-import com.mrcrayfish.controllable.client.RadialMenu;
-import com.mrcrayfish.controllable.client.RumbleHandler;
-import com.mrcrayfish.controllable.client.ScrollingHandler;
-import com.mrcrayfish.controllable.client.VirtualCursor;
+import com.mrcrayfish.controllable.client.*;
 import com.mrcrayfish.controllable.client.binding.BindingRegistry;
 import com.mrcrayfish.controllable.client.input.AdaptiveControllerManager;
 import com.mrcrayfish.controllable.client.input.Controller;
-import com.mrcrayfish.controllable.client.input.glfw.GLFWControllerManager;
-import com.mrcrayfish.controllable.client.input.sdl2.SDL2ControllerManager;
+import com.mrcrayfish.controllable.client.input.sdl3.SDL3ControllerManager;
 import com.mrcrayfish.controllable.util.Utils;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,8 +71,7 @@ public class Controllable
 
     public static boolean isArchitecturyLoaded()
     {
-        // TODO 26.1 reimplement when possible
-        return false; //ARCHITECTURY_LOADED;
+        return ARCHITECTURY_LOADED;
     }
 
     public static boolean isJeiLoaded()
@@ -110,9 +102,6 @@ public class Controllable
 
     private static AdaptiveControllerManager createManager()
     {
-        return switch (Config.CLIENT.inputLibrary.get()) {
-            case GLFW -> new GLFWControllerManager();
-            case SDL2 -> new SDL2ControllerManager();
-        };
+        return new SDL3ControllerManager();
     }
 }

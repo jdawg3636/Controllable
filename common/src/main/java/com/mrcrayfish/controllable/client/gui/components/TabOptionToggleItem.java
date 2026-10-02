@@ -1,9 +1,10 @@
 package com.mrcrayfish.controllable.client.gui.components;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mrcrayfish.controllable.Controllable;
-import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.gui.navigation.Navigatable;
+import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.input.Controller;
 import com.mrcrayfish.controllable.client.util.ClientHelper;
 import com.mrcrayfish.controllable.client.util.ScreenHelper;
@@ -19,7 +20,6 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -112,7 +112,7 @@ public class TabOptionToggleItem extends TabOptionBaseItem implements Navigatabl
         if(controller == null || !controller.isBeingUsed())
             return super.mouseClicked(event, doubleClick);
 
-        if(event.button() != GLFW.GLFW_MOUSE_BUTTON_1)
+        if(event.button() != InputConstants.MOUSE_BUTTON_LEFT)
             return false;
 
         if(!this.isMouseOver(event.x(), event.y()))

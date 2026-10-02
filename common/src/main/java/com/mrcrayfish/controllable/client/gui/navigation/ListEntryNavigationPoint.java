@@ -1,6 +1,5 @@
 package com.mrcrayfish.controllable.client.gui.navigation;
 
-import com.mrcrayfish.controllable.client.gui.components.TabOptionBaseItem;
 import com.mrcrayfish.controllable.platform.ClientServices;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;

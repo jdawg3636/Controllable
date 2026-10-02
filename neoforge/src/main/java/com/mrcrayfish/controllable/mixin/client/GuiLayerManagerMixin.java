@@ -1,6 +1,5 @@
 package com.mrcrayfish.controllable.mixin.client;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mrcrayfish.controllable.client.ClientEvents;
 import net.minecraft.client.DeltaTracker;

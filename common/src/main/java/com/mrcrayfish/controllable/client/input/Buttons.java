@@ -1,7 +1,6 @@
 package com.mrcrayfish.controllable.client.input;
 
 import org.apache.commons.lang3.ArrayUtils;
-
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -1,16 +1,11 @@
 package com.mrcrayfish.controllable.client.gui.widget;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TextColor;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Objects;
 
 /**
  * Author: MrCrayfish

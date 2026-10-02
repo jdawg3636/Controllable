@@ -1,11 +1,12 @@
 package com.mrcrayfish.controllable.client.gui.screens;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mrcrayfish.controllable.Controllable;
-import com.mrcrayfish.controllable.client.input.ButtonStates;
-import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.gui.ControllerAxis;
 import com.mrcrayfish.controllable.client.gui.ControllerButton;
 import com.mrcrayfish.controllable.client.gui.widget.ImageButton;
+import com.mrcrayfish.controllable.client.input.ButtonStates;
+import com.mrcrayfish.controllable.client.input.Buttons;
 import com.mrcrayfish.controllable.client.input.Controller;
 import com.mrcrayfish.controllable.util.Utils;
 import net.minecraft.ChatFormatting;
@@ -22,7 +23,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +158,7 @@ public class ControllerLayoutScreen extends Screen
     @Override
     public boolean keyPressed(KeyEvent event)
     {
-        if(event.key() == GLFW.GLFW_KEY_ESCAPE && this.configureButton != -1)
+        if(event.key() == InputConstants.KEY_ESCAPE && this.configureButton != -1)
         {
             this.configureButton = -1;
             return true;

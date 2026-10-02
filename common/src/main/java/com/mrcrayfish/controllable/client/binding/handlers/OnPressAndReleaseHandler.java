@@ -1,8 +1,8 @@
 package com.mrcrayfish.controllable.client.binding.handlers;
 
-import com.mrcrayfish.controllable.client.binding.handlers.action.context.Context;
 import com.mrcrayfish.controllable.client.binding.handlers.action.BindingPressed;
 import com.mrcrayfish.controllable.client.binding.handlers.action.BindingReleased;
+import com.mrcrayfish.controllable.client.binding.handlers.action.context.Context;
 
 import java.util.Optional;
 import java.util.function.Function;

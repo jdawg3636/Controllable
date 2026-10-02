@@ -1,9 +1,9 @@
 package com.mrcrayfish.controllable.client.binding.handlers;
 
-import com.mrcrayfish.controllable.client.binding.handlers.action.context.Context;
-import com.mrcrayfish.controllable.client.binding.handlers.action.context.MovementInputContext;
 import com.mrcrayfish.controllable.client.binding.handlers.action.BindingMovementInput;
 import com.mrcrayfish.controllable.client.binding.handlers.action.BindingPressed;
+import com.mrcrayfish.controllable.client.binding.handlers.action.context.Context;
+import com.mrcrayfish.controllable.client.binding.handlers.action.context.MovementInputContext;
 
 import java.util.Optional;
 import java.util.function.Consumer;

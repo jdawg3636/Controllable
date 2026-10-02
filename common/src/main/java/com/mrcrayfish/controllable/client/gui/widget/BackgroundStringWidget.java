@@ -1,10 +1,8 @@
 package com.mrcrayfish.controllable.client.gui.widget;
 
 import com.mrcrayfish.controllable.client.util.ScreenHelper;
-import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.AbstractStringWidget;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.network.chat.Component;
 

@@ -1,9 +1,9 @@
 package com.mrcrayfish.controllable.client.gui.screens;
 
 import com.mrcrayfish.controllable.Controllable;
-import com.mrcrayfish.controllable.client.gui.RadialMenuAction;
 import com.mrcrayfish.controllable.client.gui.Icons;
 import com.mrcrayfish.controllable.client.gui.RadialItemList;
+import com.mrcrayfish.controllable.client.gui.RadialMenuAction;
 import com.mrcrayfish.controllable.client.util.ClientHelper;
 import com.mrcrayfish.controllable.client.util.ScreenHelper;
 import net.minecraft.client.gui.components.StringWidget;
@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 
