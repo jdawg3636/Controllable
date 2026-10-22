@@ -25,3 +25,6 @@ eclipse
 /neoforge/runs/
 /neoforge/logs/
 /forge/
+
+# Legacy development client and generated test worlds
+/legacy/run/

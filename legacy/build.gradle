@@ -1,0 +1,109 @@
+plugins {
+    id 'java'
+    id 'xyz.wagyourtail.unimined' version '1.4.1'
+}
+
+group = 'com.mrcrayfish'
+version = '0.1.0+1.5.2'
+base { archivesName = 'controllable' }
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+    withSourcesJar()
+}
+tasks.withType(JavaCompile).configureEach { options.release = 7 }
+unimined.minecraft {
+    version '1.5.2'
+    minecraftForge {
+        loader '7.8.1.738'
+        forgeTransformer.enableJarModAgent = false
+    }
+    minecraftRemapper.config { ignoreConflicts(true) }
+    // FG1's merged development classes retain a dedicated-server-only reference.
+    // Java 8's verifier resolves it while loading the integrated server.
+    runs { config('client') { javaVersion = JavaVersion.VERSION_1_8; jvmArgs('-noverify') } }
+}
+repositories { mavenCentral() }
+configurations { bundled }
+dependencies {
+    implementation 'net.java.dev.jna:jna:5.13.0'
+    bundled 'net.java.dev.jna:jna:5.13.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+processResources {
+    from(zipTree('vendor/controllable-sdl-2.32.10-1.1.0.jar')) {
+        include '*/*.dll', '*/*.so', '*/*.dylib'
+    }
+}
+jar {
+    from { configurations.bundled.collect { zipTree(it) } }
+    exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+    from('../LICENSE')
+    from('../LICENSE_ControllableSDL')
+    from('../LICENSE_GameControllerDB')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Test-only Forge mod; excluded from all normal release builds.
+if (project.hasProperty('smoke')) {
+    sourceSets.main.java.srcDir 'src/smoke/java'
+}
+
+def sdlArchive = file('vendor/controllable-sdl-2.32.10-1.1.0.jar')
+tasks.register('verifyVendor') {
+    inputs.file(sdlArchive)
+    doLast {
+        def digest = java.security.MessageDigest.getInstance('SHA-256').digest(sdlArchive.bytes).encodeHex().toString()
+        if (digest != '127afb5612470e035b2b61ccb4c7119e7c446500a3036d0365118bbb25717bdc') {
+            throw new GradleException('Vendored SDL release checksum does not match')
+        }
+    }
+}
+processResources.dependsOn tasks.named('verifyVendor')
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+tasks.register('verifyDistribution') {
+    dependsOn tasks.named('remapJar')
+    doLast {
+        if (project.hasProperty('smoke')) throw new GradleException('Smoke builds are for testing only; build a release without -Psmoke')
+        def archive = tasks.named('remapJar').get().archiveFile.get().asFile
+        def zip = new java.util.zip.ZipFile(archive)
+        try {
+            ['win32-x86/SDL2.dll', 'win32-x86-64/SDL2.dll', 'win32-aarch64/SDL2.dll',
+             'linux-x86/libSDL2.so', 'linux-x86-64/libSDL2.so', 'linux-aarch64/libSDL2.so',
+             'darwin-x86-64/libSDL2.dylib', 'darwin-aarch64/libSDL2.dylib',
+             'gamecontrollerdb.txt', 'mcmod.info', 'LICENSE_JNA', 'LICENSE_SDL2'].each {
+                if (zip.getEntry(it) == null) throw new GradleException("Missing distribution resource: $it")
+            }
+            zip.entries().each { entry ->
+                if (entry.name.endsWith('.class')) {
+                    def stream = new DataInputStream(zip.getInputStream(entry))
+                    try {
+                        stream.readInt(); stream.readUnsignedShort()
+                        if (stream.readUnsignedShort() > 51) throw new GradleException("Not Java 7 compatible: ${entry.name}")
+                    } finally { stream.close() }
+                    if (entry.name.contains('SmokeTestMod')) throw new GradleException('Integration test mod leaked into release')
+                }
+            }
+        } finally { zip.close() }
+    }
+}
+check.dependsOn tasks.named('verifyDistribution')
+
+// Used by the standalone production smoke runner; no Minecraft files are distributed.
+tasks.register('exportClientLaunch') {
+    dependsOn tasks.named('preRunClient')
+    doLast {
+        def run = tasks.named('runClient').get()
+        def output = layout.buildDirectory.file('client-launch.json').get().asFile
+        output.parentFile.mkdirs()
+        output.text = groovy.json.JsonOutput.toJson([
+            java: run.javaLauncher.get().executablePath.asFile.absolutePath, jvm: run.jvmArgs,
+            classpath: run.classpath.files.collect { it.absolutePath },
+            args: run.args, cwd: run.workingDir.absolutePath
+        ])
+    }
+}

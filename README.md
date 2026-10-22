@@ -1,3 +1,5 @@
+> **Minecraft 1.5.2 backport:** See [legacy/README.md](legacy/README.md) for the Forge 7.8.1.738 build, installation, controls, and validation.
+
 ![controllable_banner](https://github.com/user-attachments/assets/6fe6fc96-1cab-491c-affa-e972bb3b2a8b)
 **Available on:**
 
