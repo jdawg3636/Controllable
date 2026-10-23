@@ -28,6 +28,13 @@ public class ControllerTest {
         assertEquals(.8F,merged.axes[0],0);assertEquals(.2F,merged.axes[1],0);
         assertEquals(.7F,merged.axes[2],0);assertEquals(-.3F,merged.axes[3],0);assertEquals(.8F,merged.axes[4],0);
     }
+    @Test public void activeStickCannotBeCancelledByAnOppositeKeyboardFlag() {
+        assertEquals(-.7F,ControllerState.movementAxis(1,-.7F),0);
+        assertEquals(.7F,ControllerState.movementAxis(-1,.7F),0);
+        assertEquals(-1,ControllerState.movementAxis(-1,0),0);
+        assertEquals(1,ControllerState.movementAxis(1,0),0);
+        assertEquals(0,ControllerState.movementAxis(0,0),0);
+    }
     @Test public void settingsRoundTripBindingsAndRadial() throws Exception {
         Settings original=new Settings(directory.getRoot()); original.deadZone=.3F;
         original.bindings.put(Settings.Action.JUMP,3); original.radial[2]="settings"; original.controllerIndex=2; original.save();

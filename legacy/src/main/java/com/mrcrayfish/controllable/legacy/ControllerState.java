@@ -19,6 +19,11 @@ public final class ControllerState {
         return result;
     }
 
+    /** A live stick owns its axis; stale modded keyboard flags must not cancel it. */
+    public static float movementAxis(float keyboard, float controller) {
+        return Math.max(-1, Math.min(1, controller != 0 ? controller : keyboard));
+    }
+
     public static float normalize(short value) {
         return value < 0 ? value / 32768.0F : value / 32767.0F;
     }

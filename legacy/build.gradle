@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.mrcrayfish'
-version = '0.1.0+1.5.2'
+version = '0.1.1+1.5.2'
 base { archivesName = 'controllable' }
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -24,6 +24,9 @@ unimined.minecraft {
     // Java 8's verifier resolves it while loading the integrated server.
     runs { config('client') { javaVersion = JavaVersion.VERSION_1_8; jvmArgs('-noverify') } }
 }
+// Regression tests exercise the actual legacy KeyBinding implementation.
+sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
+sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
 repositories { mavenCentral() }
 configurations { bundled }
 dependencies {

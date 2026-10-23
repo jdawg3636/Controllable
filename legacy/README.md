@@ -7,9 +7,12 @@ repository's original directories; this directory is a separate Gradle build.
 
 ## Install
 
+Version 0.1.1 fixes jump bindings shared with other mods and conflicting keyboard
+movement flags. See `CHANGELOG.md`. Replace the old mod JAR; keep your config.
+
 1. Install Minecraft **1.5.2** and Forge **7.8.1.738** in your launcher.
 2. Use a **Java 8** game runtime (recommended for legacy Forge).
-3. Copy `build/libs/controllable-0.1.0+1.5.2.jar` into that instance's `mods` folder.
+3. Copy `build/libs/controllable-0.1.1+1.5.2.jar` into that instance's `mods` folder.
    Use the plain JAR, not the `-dev` or `-sources` JAR.
 4. Connect your controller and launch. Open settings with **F8**, **Guide**, or
    **Back + Start**. The Xbox Guide button can be reserved by the operating system.
@@ -44,7 +47,8 @@ can select a different controller. Hotplug and controller reconnection are suppo
 | Guide or Back + Start | Settings | Settings |
 
 Jump twice to toggle creative flight, as with the keyboard. Keyboard and mouse can
-be used alongside the controller. Input releases on disconnect, loss of focus, and
+be used alongside the controller. While a stick axis is active it takes priority
+over keyboard movement on that axis; center the stick to use keyboard movement. Input releases on disconnect, loss of focus, and
 GUI transitions to avoid stuck actions. Analog movement defaults to local worlds;
 servers receive digital movement unless **Analog on servers** is enabled.
 
@@ -96,7 +100,7 @@ bash legacy/gradlew -p legacy runClient
 ```
 
 Or from this directory: `./gradlew build` / `./gradlew runClient` (Windows:
-`gradlew.bat build`). The release is `legacy/build/libs/controllable-0.1.0+1.5.2.jar`.
+`gradlew.bat build`). The release is `legacy/build/libs/controllable-0.1.1+1.5.2.jar`.
 `build` runs unit/native tests, verifies the vendored SDL checksum, remaps to
 Minecraft's production names, and checks all platform libraries and class versions.
 The build needs network access for Gradle/Minecraft/Forge/Maven dependencies,

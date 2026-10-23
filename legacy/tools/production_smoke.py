@@ -19,7 +19,7 @@ java = launch['java'] or os.environ.get('JAVA8_HOME', '/usr/lib/jvm/temurin-8-jd
 cwd = pathlib.Path(launch['cwd'])
 mods = cwd / 'mods'
 mods.mkdir(exist_ok=True)
-jar = root / 'build/libs/controllable-0.1.0+1.5.2.jar'
+jar = root / 'build/libs/controllable-0.1.1+1.5.2.jar'
 installed = mods / 'controllable-smoke.jar'
 shutil.copyfile(jar, installed)
 result = cwd / 'smoke-result.txt'

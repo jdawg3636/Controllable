@@ -26,8 +26,10 @@ public final class ClientProxy extends CommonProxy implements ITickHandler {
     private final SdlBackend backend = new SdlBackend();
     private final boolean[] previous = new boolean[18];
     private final boolean[] guiPrevious = new boolean[18];
-    private final Set<Integer> desiredKeys = new HashSet<Integer>();
-    private final Set<Integer> ownedKeys = new HashSet<Integer>();
+    private final ControllerKeyBindings controllerKeys = new ControllerKeyBindings();
+    private final ControllerKeyBindings.PhysicalKeys physicalKeys = new ControllerKeyBindings.PhysicalKeys() {
+        @Override public boolean down(int code) { return physical(code); }
+    };
     private Minecraft mc;
     private boolean initialized, f8, active, sneakToggle;
     private GuiScreen lastScreen;
@@ -113,7 +115,7 @@ public final class ClientProxy extends CommonProxy implements ITickHandler {
         snapshot(guiPrevious);
     }
     private void gameTick() {
-        desiredKeys.clear();
+        controllerKeys.beginTick();
         if(!active) return;
         if(mc.currentScreen==null && mc.thePlayer!=null && mc.inGameHasFocus) {
             if(!(mc.thePlayer.movementInput instanceof ControllerMovement)) mc.thePlayer.movementInput=new ControllerMovement(mc.thePlayer.movementInput);
@@ -142,16 +144,11 @@ public final class ClientProxy extends CommonProxy implements ITickHandler {
         if(mc.currentScreen==null) applyKeys(); else releaseKeys();
         snapshot(previous);
     }
-    private void key(KeyBinding binding,boolean down) {
-        if(down) desiredKeys.add(binding.keyCode);
-    }
-    private void applyKeys() {
-        for(Integer code:new HashSet<Integer>(ownedKeys)) if(!desiredKeys.contains(code)) { KeyBinding.setKeyBindState(code,physical(code));ownedKeys.remove(code); }
-        for(Integer code:desiredKeys) { if(!ownedKeys.contains(code))KeyBinding.onTick(code); KeyBinding.setKeyBindState(code,true);ownedKeys.add(code); }
-    }
+    private void key(KeyBinding binding,boolean down) { controllerKeys.hold(binding,down); }
+    private void applyKeys() { controllerKeys.apply(physicalKeys); }
     private static boolean physical(int code) { return code>=0 ? code<Keyboard.KEYBOARD_SIZE && Keyboard.isKeyDown(code) : code+100>=0 && code+100<Mouse.getButtonCount() && Mouse.isButtonDown(code+100); }
-    private void pulse(KeyBinding binding) { KeyBinding.onTick(binding.keyCode); }
-    private void releaseKeys() { for(Integer code:ownedKeys) KeyBinding.setKeyBindState(code,physical(code)); ownedKeys.clear(); }
+    private void pulse(KeyBinding binding) { ControllerKeyBindings.pulse(binding); }
+    private void releaseKeys() { controllerKeys.release(physicalKeys); }
     private void release() {
         releaseKeys(); moveX=moveY=0; sneakToggle=false; lastHealth=0;
         if(lastScreen!=null) { if(leftClick) GuiBridge.up(lastScreen,(int)cursorX,(int)cursorY,0); if(rightClick) GuiBridge.up(lastScreen,(int)cursorX,(int)cursorY,1); }
@@ -256,7 +253,7 @@ public final class ClientProxy extends CommonProxy implements ITickHandler {
                 float x=moveX,y=moveY;
                 if(!settings.analogRemote&&!mc.isSingleplayer()) { x=x>.3F?1:x<-.3F?-1:0; y=y>.3F?1:y<-.3F?-1:0; }
                 if(sneak) { x*=.3F; y*=.3F; }
-                moveStrafe=Math.max(-1,Math.min(1,moveStrafe+x)); moveForward=Math.max(-1,Math.min(1,moveForward+y));
+                moveStrafe=ControllerState.movementAxis(moveStrafe,x); moveForward=ControllerState.movementAxis(moveForward,y);
             }
         }
     }

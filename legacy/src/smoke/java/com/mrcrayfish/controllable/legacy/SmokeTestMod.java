@@ -35,6 +35,8 @@ public final class SmokeTestMod implements ITickHandler {
     private Pointer secondJoystick;private int primaryIndex,secondIndex,modStart,modEnd,modUp;
     private int ticks;private int stage;private long start=System.currentTimeMillis();
     private SmokeListScreen listScreen;
+    private boolean movementRegressionDone;
+    private double groundY,maxJumpY;
     private float yaw;private double x,z;
     @Mod.Init public void init(FMLInitializationEvent event) {
         TickRegistry.registerTickHandler(this,Side.CLIENT);
@@ -86,8 +88,32 @@ public final class SmokeTestMod implements ITickHandler {
             mc.launchIntegratedServer("controllable-smoke","Controller smoke test",world); next();
         } else if(stage==3 && mc.thePlayer!=null && ticks>60) {
             mc.displayGuiScreen(null);mc.setIngameFocus();
+            if(!movementRegressionDone) {
+                mc.playerController.setGameType(EnumGameType.SURVIVAL);
+                mc.thePlayer.capabilities.isFlying=false;mc.thePlayer.capabilities.allowFlying=false;
+                mc.thePlayer.rotationYaw=mc.thePlayer.prevRotationYaw=0;
+                x=mc.thePlayer.posX;z=mc.thePlayer.posZ;
+                // Reproduce a mod leaving a forward binding set while the stick reverses.
+                mc.gameSettings.keyBindForward.pressed=true;
+                sdl.SDL_JoystickSetVirtualAxis(joystick,1,(short)24000);
+                stage=100;ticks=0;return;
+            }
             x=mc.thePlayer.posX;z=mc.thePlayer.posZ;yaw=mc.thePlayer.rotationYaw;
             sdl.SDL_JoystickSetVirtualAxis(joystick,1,(short)-24000);sdl.SDL_JoystickSetVirtualAxis(joystick,2,(short)18000);next();
+        } else if(stage==100 && ticks>30) {
+            check(mc.thePlayer.movementInput.moveForward<-.3F,"positive stick Y produces backward movement input");
+            check(mc.thePlayer.posZ<z-.5,"positive stick Y actually walks player backward despite conflicting forward binding");
+            mc.gameSettings.keyBindForward.pressed=false;
+            sdl.SDL_JoystickSetVirtualAxis(joystick,1,(short)0);next();
+        } else if(stage==101 && ticks>10 && mc.thePlayer.onGround) {
+            groundY=maxJumpY=mc.thePlayer.posY;button(0,true);next();
+        } else if(stage==102) {
+            maxJumpY=Math.max(maxJumpY,mc.thePlayer.posY);
+            if(ticks>8) {
+                check(mc.thePlayer.movementInput.jump,"A reaches player movement jump input");
+                check(maxJumpY>groundY+.5,"A actually lifts player off the ground");
+                button(0,false);movementRegressionDone=true;stage=3;ticks=0;
+            }
         } else if(stage==4 && ticks>30) {
             check(Math.abs(mc.thePlayer.posX-x)+Math.abs(mc.thePlayer.posZ-z)>.5,"analog stick moves player");
             check(Math.abs(mc.thePlayer.rotationYaw-yaw)>5,"right stick rotates camera");
